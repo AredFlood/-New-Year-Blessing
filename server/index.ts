@@ -20,13 +20,24 @@ async function main() {
     app.use(cors());
     app.use(express.json({ limit: '50mb' }));
 
-    // Routes
+    // API Routes
     app.use('/api/contacts', contactsRouter);
     app.use('/api/ai', aiRouter);
 
     // Health check
     app.get('/api/health', (_req, res) => {
         res.json({ status: 'ok', timestamp: new Date().toISOString() });
+    });
+
+    // Serve static files from dist (Production support)
+    const distPath = path.resolve(__dirname, '..', 'dist');
+    app.use(express.static(distPath));
+
+    // Handle SPA routing for non-API requests
+    app.get('*', (req, res) => {
+        if (!req.path.startsWith('/api')) {
+            res.sendFile(path.join(distPath, 'index.html'));
+        }
     });
 
     app.listen(PORT, () => {
