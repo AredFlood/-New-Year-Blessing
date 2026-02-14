@@ -1,0 +1,7 @@
+{
+  "name": "New Year Blessings AI",
+  "description": "A festive application to generate personalized New Year greetings for your friends and family using Gemini AI.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
